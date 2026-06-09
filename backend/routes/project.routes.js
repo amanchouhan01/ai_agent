@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import { body } from 'express-validator';
 import * as projectController from '../controllers/project.controller.js';
 import * as authMiddleWare from '../middleware/auth.middleware.js';
@@ -42,6 +42,10 @@ router.put('/update-file-tree',
     body('fileTree').isObject().withMessage('File tree is required'),
     projectController.updateFileTree
 )
+
+router.delete('/:projectId',
+    authMiddleWare.authUser,
+    projectController.deleteProject)
 
 
 export default router;

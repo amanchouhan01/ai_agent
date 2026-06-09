@@ -61,7 +61,6 @@ const Project = () => {
             } else {
                 nextSelectedUserId.add(id)
             }
-            console.log(Array.from(nextSelectedUserId))
             return nextSelectedUserId
         })
     }
@@ -72,8 +71,11 @@ const Project = () => {
             projectId,
             users: Array.from(selectedUserId)
         }).then(res => {
-            console.log(res.data)
             setIsModalOpen(false)
+            setSelectedUserId(new Set())
+            axios.get(`/projects/get-project/${projectId}`).then(res => {
+                setProject(res.data.project)
+            })
         }).catch(err => {
             console.log(err)
         })
@@ -132,7 +134,6 @@ const Project = () => {
         getWebContainer().then(container => {
             setWebContainer(container)
             webContainerRef.current = container  // ← ref bhi set karo
-            console.log("container initialized")
         })
 
 
@@ -157,7 +158,7 @@ const Project = () => {
 
         if (projectId) {
             axios.get(`/projects/get-project/${projectId}`).then(res => {
-                console.log(res.data.project)
+
                 setProject(res.data.project)
                 setFileTree(res.data.project.fileTree || {})
                 setMessages(res.data.project?.messages || [])
@@ -336,9 +337,25 @@ const Project = () => {
                                     <button
                                         key={file}
                                         onClick={() => setCurrentFile(file)}
-                                        className={`open-file cursor-pointer p-2 px-4 flex items-center gap-2 bg-slate-300 w-fit ${currentFile === file ? 'bg-slate-400' : ''}`}
+                                        className={`open-file cursor pointer p-2 px-4 flex items-center gap-2 bg-slate-300 w-fit ${currentFile === file ? 'bg-slate-400' : ''}`}
                                     >
                                         <p className='font-semibold text-lg'>{file}</p>
+                                        <span
+                                            onClick={(e) => {
+                                                e.stopPropagation()  // ← file select hone se rokta hai
+
+                                                const newOpenFiles = openFiles.filter(f => f !== file)
+                                                setOpenFiles(newOpenFiles)
+
+                                                // agar yahi file open thi toh next file select karo
+                                                if (currentFile === file) {
+                                                    setCurrentFile(newOpenFiles[newOpenFiles.length - 1] || null)
+                                                }
+                                            }}
+                                            className='ml-1 text-slate-500 hover:text-slate-900 hover:bg-slate-500 rounded-sm w-4 h-4 flex items-center justify-center text-xs cursor-pointer'
+                                        >
+                                            ✕
+                                        </span>
                                     </button>
                                 ))
                             }

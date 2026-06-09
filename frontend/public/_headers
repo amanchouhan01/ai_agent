@@ -1,0 +1,4 @@
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Content-Security-Policy: default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; script-src-elem * 'unsafe-inline' 'unsafe-eval'; connect-src * ws: wss: http: https:; frame-src *; img-src * data: blob:; style-src * 'unsafe-inline'

@@ -2,6 +2,7 @@ import projectModel from '../models/project.model.js';
 import * as projectService from '../services/project.service.js';
 import userModel from '../models/user.model.js';
 import { validationResult } from 'express-validator';
+import Project from '../models/project.model.js';
 
 
 export const createProject = async (req, res) => {
@@ -114,3 +115,29 @@ export const updateFileTree = async (req, res) => {
         res.status(400).json({error: err.message})
     }
 }
+
+export const deleteProject = async (req, res) => {
+    try{
+        const{projectId} = req.params;
+        const project = await Project.findByIdAndDelete(projectId);
+
+        if(!project){
+            return res.status(404).json({
+                success: false,
+                messages: "Project Not Found",
+            });
+        }
+
+        res.status(200).json({
+            success:true,
+            message: "Project deleted successfully",
+        });
+
+    }
+    catch(error){
+        res.status(500).json({
+            success:false,
+            message: error.message,
+        });
+    }
+};
