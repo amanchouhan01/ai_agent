@@ -111,7 +111,7 @@ const Register = () => {
 
                         <button
                             type="submit"
-                            className="w-full rounded-2xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+                            className="w-full rounded-2xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200 hover:cursor-pointer"
                         >
                             Create account
                         </button>
@@ -121,7 +121,7 @@ const Register = () => {
                         <span>Already have an account?</span>
                         <button
                             onClick={() => navigate('/login')}
-                            className="font-medium text-slate-100 transition hover:text-slate-50"
+                            className="font-medium text-slate-100 transition hover:text-slate-50 hover:cursor-pointer"
                         >
                             Sign in
                         </button>

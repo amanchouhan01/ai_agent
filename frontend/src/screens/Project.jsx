@@ -393,7 +393,7 @@ const Project = () => {
                                         setIframeUrl(url)
                                     })
                                 }}
-                                className='p-2 px-4 bg-slate-800 text-white'
+                                className='p-2 px-4 bg-slate-800 text-white hover:cursor-pointer'
                             >
                                 Run
                             </button>
