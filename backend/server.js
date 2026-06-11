@@ -25,12 +25,10 @@ io.use(async (socket, next) => {
 
         const projectId = socket.handshake.query.projectId;
 
-        if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
             return next(new Error('Invalid projectId'))
         }
 
-
-        socket.project = await projectModel.findById(projectId);
 
         if (!token) {
             return next(new Error('Authentication Error'))
@@ -43,6 +41,11 @@ io.use(async (socket, next) => {
         }
 
         socket.user = decoded;
+
+        socket.project = await projectModel.findById(projectId);
+        if (!socket.project) {
+            return next(new Error('Project not found'))
+        }
 
         next();
 
@@ -104,7 +107,7 @@ io.on('connection', socket => {
                 })
 
                 io.to(socket.roomId).emit('project-message', aiMessage)
-                
+
             } catch (error) {
                 console.error('AI generation failed:', error)
                 io.to(socket.roomId).emit('project-message', {
@@ -123,14 +126,21 @@ io.on('connection', socket => {
 
     })
 
+    socket.on('collaborator-added', (data) => {
+        io.to(socket.roomId).emit('collaborator-added', data)
+    })
+
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
         socket.leave(socket.roomId)
     });
 
-});
+    socket.on('project-deleted', (data) => {
+        socket.broadcast.to(socket.roomId).emit('project-deleted', data)
+    })
 
+});
 
 
 server.listen(port, () => {

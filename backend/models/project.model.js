@@ -15,7 +15,6 @@ const messageSchema = new mongoose.Schema({
 const projectSchema = new mongoose.Schema({
     name: {
         type: String,
-        lowercase: true,
         require: true,
         trim: true,
         unique: true,
@@ -33,7 +32,9 @@ const projectSchema = new mongoose.Schema({
         default: {}
     },
     messages: [messageSchema]
-})
+},
+    { timestamps: true }
+)
 
 
 const Project = mongoose.model('project', projectSchema)

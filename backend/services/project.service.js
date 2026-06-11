@@ -40,7 +40,7 @@ export const getAllProjectByUserId = async ({ userId }) => {
 
     const allUserProjects = await projectModel.find({
         users: userId
-    })
+    }).select('-messages')
 
     return allUserProjects;
 }
@@ -105,26 +105,26 @@ export const getProjectById = async ({ projectId }) => {
     }).populate('users')
 
     return project;
-} 
+}
 
-export const updateFileTree = async({projectId, fileTree}) => {
-    if(!projectId){
+export const updateFileTree = async ({ projectId, fileTree }) => {
+    if (!projectId) {
         throw new Error("projectId is required")
     }
 
-    if(!mongoose.Types.ObjectId.isValid(projectId)){
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
         throw new Error("Invalid projectId")
     }
 
-    if(!fileTree){
+    if (!fileTree) {
         throw new Error("fileTree is required")
     }
 
     const project = await projectModel.findOneAndUpdate({
         _id: projectId
-    },{
+    }, {
         fileTree
-    },{
+    }, {
         new: true
     })
 

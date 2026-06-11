@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { UserContext } from '../context/user.context';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -19,18 +20,20 @@ const Register = () => {
     function submitHandler(e) {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Passwords do not match');
+            toast.error("Password does not match")
             return;
         }
 
         axios.post(`${apiUrl}/users/register`, {
             email, password, name
         }).then((res) => {
+            toast.success("Registered successfully")
             console.log(res.data)
             localStorage.setItem('token', res.data.token)
             setUser(res.data.user)
             navigate('/')
         }).catch((err) => {
+            toast.error("Registration failed")
             console.log(err.response.data)
         })
     };

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import axios from '../config/axios.js';
 import { UserContext } from '../context/user.context.jsx';
+import { toast } from 'react-toastify';
+
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
@@ -21,12 +24,14 @@ const Login = () => {
             email,
             password
         }).then((res) => {
+            toast.success("Logged in successfully")
             localStorage.setItem('token', res.data.token)
             setUser(res.data.user)
             navigate('/')
         })
             .catch((err) => {
-                console.log(err.response?.data || err.message)
+                toast.error("Login failed");
+                console.log(err.response?.data || err.message);
             })
 
     }

@@ -22,11 +22,11 @@ const Navbar = () => {
     return (
         <nav className='sticky top-0 z-10 flex items-center justify-between px-6 h-14 bg-slate-600 border-slate-200'>
             <div className='flex items-center gap-2 cursor-pointer text-amber-300' onClick={() => navigate('/')}>
-                <i className='ri-terminal-box-fill text-xl'></i>
-                <span className='font-medium text-base'>AI Agent</span>
+                <i className='ri-terminal-box-line text-xl'></i>
+                <span className='font-medium text-base'>DevRoom</span>
             </div>
             <div className='flex items-center gap-3'>
-                <div className='flex items-center gap-2 px-3 py-1.5 rounded-md bg-green-500'>
+                <div className='flex items-center gap-2 px-3 py-1 rounded-md bg-green-500'>
                     <div className='w-7 h-7 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 text-xs font-medium'>
                         {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase()}
                     </div>
