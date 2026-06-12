@@ -1,18 +1,10 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS,
-    }
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const sendOTP = async (email, otp) => {
-    await transporter.sendMail({
-        from: `"DevRoom" <${process.env.BREVO_USER}>`,
+    await resend.emails.send({
+        from: 'DevRoom <noreply@devroom.sbs>',
         to: email,
         subject: 'Your DevRoom OTP',
         html: `
